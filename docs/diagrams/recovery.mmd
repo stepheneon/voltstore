@@ -1,0 +1,11 @@
+flowchart TD
+    Start["Open storage directory"] --> Locked{"Acquire directory lock?"}
+    Locked -- Yes --> Load["Load and validate snapshot"]
+    Locked -- No --> Busy["Report directory already in use"]
+    Load --> Replay["Replay complete CRC-valid WAL records"]
+    Replay --> Tail{"Incomplete final WAL record?"}
+    Tail -- Yes --> Repair["Truncate and sync damaged WAL suffix"]
+    Tail -- No --> Expire["Remove expired entries"]
+    Repair --> Expire
+    Expire --> Ready["Accept operations"]
+    Replay -- "Complete-record corruption" --> Integrity["Report integrity error; preserve durable files"]

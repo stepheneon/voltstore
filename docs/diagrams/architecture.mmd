@@ -1,0 +1,13 @@
+flowchart LR
+    Client["TCP client"] --> Listener["TCP listener"]
+    Listener --> Pool["Fixed worker pool"]
+    Pool --> Parser["Command parser"]
+    Parser --> Engine["StorageEngine"]
+    Engine --> Index["In-memory hash index"]
+    Engine --> Cache["LRU read cache"]
+    Engine --> WAL["Write-ahead log"]
+    Engine --> Snapshot["Snapshot"]
+    WAL --> WalFile[(wal.vlt)]
+    Snapshot --> SnapshotFile[(snapshot.vlt)]
+    Engine --> Lock["Directory lock"]
+    Lock --> LockFile[(.voltstore.lock)]

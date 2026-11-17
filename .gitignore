@@ -1,0 +1,13 @@
+/build/
+/build-*/
+/out/
+/voltstore-data/
+*.vlt
+*.vlt.tmp
+*.pyc
+__pycache__/
+.pytest_cache/
+.vscode/
+.idea/
+.DS_Store
+*.plist
